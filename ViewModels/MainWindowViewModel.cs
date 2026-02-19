@@ -16,10 +16,10 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [ObservableProperty] private int _currentPageSize;
     [ObservableProperty] private List<int> pageSizes;
-    [ObservableProperty] private string pageInfo;
+    [ObservableProperty] private string _pageInfo;
     
-    private int currentPage = 1;
-    private int totalPages;
+    private int _currentPage = 1;
+    private int _totalPages;
 
     public MainWindowViewModel()
     {
@@ -36,18 +36,18 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         using var db = new IllnessRecordRepository();
         var rowsCount = db.GetRowsCount();
-        totalPages = (int)Math.Ceiling((double)rowsCount / CurrentPageSize);
+        _totalPages = (int)Math.Ceiling((double)rowsCount / CurrentPageSize);
         ShowFirstPage();
     }
 
     void ShowPage(int pageIndex)
     {
-        currentPage = pageIndex;
+        _currentPage = pageIndex;
         using var db = new IllnessRecordRepository();
         IllnessRecords.Clear();
         var rows = db.GetPage(pageIndex, CurrentPageSize);
         rows.ForEach(i => IllnessRecords.Add(i));
-        pageInfo = $"Страница {currentPage} из {totalPages}";
+        PageInfo = $"Страница {_currentPage} из {_totalPages}";
     }
 
     [RelayCommand]
@@ -59,22 +59,22 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private void ShowLastPage()
     {
-        ShowPage(totalPages);
+        ShowPage(_totalPages);
     }
 
     [RelayCommand]
     private void ShowNextPage()
     {
-        if (currentPage < totalPages - 1)
-            ShowPage(currentPage + 1);
+        if (_currentPage < _totalPages)
+            ShowPage(_currentPage + 1);
     }
     
     [RelayCommand]
     private void ShowPreviousPage()
     {
-        if (currentPage > 1)
+        if (_currentPage > 1)
         {
-            ShowPage(currentPage - 1);
+            ShowPage(_currentPage - 1);
         }
     }
 }
