@@ -11,4 +11,6 @@ public class IllnessRecordViem
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public int DurationDays {get; set;}
+    
+    public string? DiagnosisNote { get; set; }
 }

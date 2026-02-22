@@ -8,7 +8,12 @@ namespace IlnessesRecordingSystem.DB;
 
 public abstract class BaseRepository<T> : IDisposable, IRepository<T> where T : class
 {
-    public abstract List<T> GetPage(int pageIndex, int pageSize);
+
+    public abstract T GetById(int id);
+    public abstract IEnumerable<T> GetAll();
+    public abstract void Add(T entity);
+    public abstract void Update(T entity);
+    public abstract void Delete(T entity);
     
     protected MySqlConnection connection;
 
