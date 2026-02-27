@@ -97,6 +97,29 @@ public partial class MainWindowViewModel : ViewModelBase
         CalculatePages();
     }
 
+    public static string ToShortFIO( string fullName)
+    {
+        if (string.IsNullOrWhiteSpace(fullName))
+            return fullName;
+        
+        var parts = fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        
+        if (parts.Length < 2)
+            return fullName;
+        
+        var result = parts[0] + ".";
+        
+        for (int i = 1; i < parts.Length; i++)
+        {
+            if (!string.IsNullOrEmpty(parts[i]))
+            {
+                result += parts[i][0] + ".";
+            }
+        }
+        
+        return result;
+    }
+    
     Window GetMain()
     {
         Window main = null;
@@ -114,7 +137,13 @@ public partial class MainWindowViewModel : ViewModelBase
             new MessageBoxCustomParams
             {
                 ContentTitle = "Подтверждение",
-                ContentMessage = $"Удалить запись о заболевании сотрудника {SelectedIllnessRecord.EmployeeName}?",
+                ContentMessage = string.Format(
+                    "Удалить запись о заболевании сотрудника {0}\n{1} ({2:dd.MM}-{3:dd.MM})?",
+                    ToShortFIO(SelectedIllnessRecord.EmployeeName),
+                    SelectedIllnessRecord.IllnessType,
+                    SelectedIllnessRecord.StartDate,
+                    SelectedIllnessRecord.EndDate
+                ),
                 ButtonDefinitions = new List<ButtonDefinition>
                 {
                     new ButtonDefinition {Name = "✅", IsDefault = true},
