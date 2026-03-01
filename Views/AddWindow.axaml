@@ -50,6 +50,7 @@
         
         <TextBox HorizontalAlignment="Center"
                  VerticalAlignment="Center"
+                 TextWrapping="Wrap"
                  Width="300"
                  Height="100"
                  Watermark="Введите заметку врача..."
