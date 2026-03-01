@@ -129,8 +129,44 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    public async void EditRecord()
+    {
+        if (SelectedIllnessRecord == null)
+            return;
+        var record = new IllnessRecordViem
+        {
+            Id = SelectedIllnessRecord.Id,
+            EmployeeName = SelectedIllnessRecord.EmployeeName,
+            DepartmentName = SelectedIllnessRecord.DepartmentName,
+            IllnessType = SelectedIllnessRecord.IllnessType,
+            StartDate = SelectedIllnessRecord.StartDate,
+            EndDate = SelectedIllnessRecord.EndDate,
+            DurationDays = SelectedIllnessRecord.DurationDays,
+            DiagnosisNote = SelectedIllnessRecord.DiagnosisNote
+        };
+        
+        var window = new EditRecordWindow(record);
+
+        window.Closed += (sender, args) =>
+        {
+            RefreshData();
+        };
+        
+        await window.ShowDialog(GetMain());
+    }
+
+    [RelayCommand]
     public async void DeleteSelectedIllnessRecord()
     {
+        
+        if (SelectedIllnessRecord == null)
+        {
+            var errorBox = MessageBoxManager
+                .GetMessageBoxStandard("Ошибка", "Не выбрана запись", ButtonEnum.Ok);
+            await errorBox.ShowWindowDialogAsync(GetMain());
+            return;
+        }
+        
         /*var messageBox = MessageBoxManager
             .GetMessageBoxStandard("Подтверждение", $"Удалить запись о заболевании сотрудника {SelectedIllnessRecord.EmployeeName}?", ButtonEnum.YesNo);*/
         var messageBox = MessageBoxManager.GetMessageBoxCustom(

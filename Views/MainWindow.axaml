@@ -19,7 +19,9 @@
             GridLinesVisibility="All"
             BorderThickness="1"
             BorderBrush="Gray"
-            SelectedItem="{Binding SelectedIllnessRecord}">
+            IsReadOnly="True"
+            SelectedItem="{Binding SelectedIllnessRecord}"
+            DoubleTapped="EditRecordDoubleTap">
             <DataGrid.Columns>
                 <!--<DataGridTextColumn Header="ID" Binding="{Binding Id}"/>-->
                 <DataGridTextColumn Header="Имя" Binding="{Binding EmployeeName}"/>

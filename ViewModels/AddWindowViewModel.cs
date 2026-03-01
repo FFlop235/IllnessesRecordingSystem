@@ -57,17 +57,7 @@ public partial class AddWindowViewModel: ObservableObject
     [RelayCommand]
     public void Close()
     {
-        if (App.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
-            foreach (var window in desktop.Windows)
-            {
-                if (window.DataContext == this)
-                {
-                    window.Close();
-                    break;
-                }
-            }
-        }
+        GetWindow().Close();
     }
     
     Window GetWindow()
@@ -127,16 +117,6 @@ public partial class AddWindowViewModel: ObservableObject
         
         _illnessRecordRepository.Add(AddRecord);
         
-        if (App.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
-            foreach (var window in desktop.Windows)
-            {
-                if (window.DataContext == this)
-                {
-                    window.Close();
-                    break;
-                }
-            }
-        }
+        GetWindow().Close();
     }
 }

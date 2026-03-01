@@ -23,7 +23,7 @@ public class IllnessRecordRepository: BaseRepository<IllnessRecordViem>, IPagina
                 it.Name AS IllnessType,
                 ir.StartDate,
                 ir.EndDate,
-                DATEDIFF(ir.EndDate, ir.StartDate) AS DurationDays
+                DATEDIFF(ir.EndDate, ir.StartDate) AS DurationDays,
                 ir.DiagnosisNote
             FROM IllnessRecords ir
             JOIN Employees e ON ir.EmployeeId = e.Id
@@ -66,7 +66,7 @@ public class IllnessRecordRepository: BaseRepository<IllnessRecordViem>, IPagina
                 it.Name AS IllnessType,
                 ir.StartDate,
                 ir.EndDate,
-                ir.DiagnosisNote
+                ir.DiagnosisNote,
                 DATEDIFF(ir.EndDate, ir.StartDate) AS DurationDays
             FROM IllnessRecords ir
             JOIN Employees e ON ir.EmployeeId = e.Id
@@ -117,7 +117,7 @@ public class IllnessRecordRepository: BaseRepository<IllnessRecordViem>, IPagina
             SET EmployeeId = @employeeId,
                 IllnessTypeId = @illnessTypeId,
                 StartDate = @startDate,
-                EndDate = @endDate
+                EndDate = @endDate,
                 DiagnosisNote = @diagnosisNote
             WHERE Id = @id", connection);
         
@@ -150,6 +150,7 @@ public class IllnessRecordRepository: BaseRepository<IllnessRecordViem>, IPagina
                 it.Name AS IllnessType,
                 ir.StartDate,
                 ir.EndDate,
+                ir.DiagnosisNote,
                 DATEDIFF(ir.EndDate, ir.StartDate) AS DurationDays
             FROM IllnessRecords ir
             JOIN Employees e ON ir.EmployeeId = e.Id
@@ -173,7 +174,10 @@ public class IllnessRecordRepository: BaseRepository<IllnessRecordViem>, IPagina
                         IllnessType = reader.GetString("IllnessType"),
                         StartDate = reader.GetDateTime("StartDate"),
                         EndDate = reader.GetDateTime("EndDate"),
-                        DurationDays = reader.GetInt32("DurationDays")
+                        DurationDays = reader.GetInt32("DurationDays"),
+                        DiagnosisNote = reader.IsDBNull(reader.GetOrdinal("DiagnosisNote")) 
+                        ? null 
+                        : reader.GetString("DiagnosisNote")
                     });
                 }
             }
