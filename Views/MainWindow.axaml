@@ -6,7 +6,7 @@
         mc:Ignorable="d" d:DesignWidth="1016" d:DesignHeight="500"
         x:Class="IllnessesRecordingSystem.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/virus.ico"
         Title="Система учёта заболеваний"
         Width="1016" Height="500">
 

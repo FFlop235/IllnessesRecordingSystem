@@ -6,6 +6,7 @@
         mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="300"
         x:Class="IllnessesRecordingSystem.Views.EditRecordWindow"
         x:DataType="viewModels:EditRecordViewModel"
+        Icon="/Assets/edit.ico"
         Title="Редактирование записи"
         Width="700" Height="300">
         <StackPanel
