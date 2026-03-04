@@ -2,7 +2,7 @@
 
 namespace IllnessesRecordingSystem.Models;
 
-public class IllnessRecordViem
+public class IllnessRecordView
 {
     public int Id { get; set; }
     public string EmployeeName { get; set; }

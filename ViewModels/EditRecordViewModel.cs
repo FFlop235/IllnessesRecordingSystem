@@ -15,7 +15,7 @@ namespace IllnessesRecordingSystem.ViewModels;
 public partial class EditRecordViewModel: ViewModelBase
 {
     [ObservableProperty]
-    IllnessRecordViem _selectedIllnessRecord;
+    IllnessRecordView _selectedIllnessRecord;
 
     private EmployeeRepository _employeeRepository;
     private IllnessTypeRepository _illnessTypeRepository;
@@ -45,7 +45,7 @@ public partial class EditRecordViewModel: ViewModelBase
     
     private Action<object?> close;
 
-    public EditRecordViewModel(IllnessRecordViem selectedIllnessRecord, Action<object?> close)
+    public EditRecordViewModel(IllnessRecordView selectedIllnessRecord, Action<object?> close)
     {
         _illnessRecordRepository = new IllnessRecordRepository();
         _employeeRepository = new EmployeeRepository();

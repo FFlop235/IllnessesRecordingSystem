@@ -19,13 +19,21 @@ namespace IllnessesRecordingSystem.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    [ObservableProperty] private ObservableCollection<IllnessRecordViem> _illnessRecords = new();
+    [ObservableProperty] private ObservableCollection<IllnessRecordView> _illnessRecords = new();
+    [ObservableProperty] private DepartmentsSickView _departmentsSickView;
 
+    [ObservableProperty] private ObservableCollection<TopIllnessItem> _topIllnesses = new();
+    [ObservableProperty] private ObservableCollection<IllnessDurationItem> _illnessDurations = new();
+    [ObservableProperty] private ObservableCollection<DepartmentSickDaysItem> _topDepartments = new();
+
+    [ObservableProperty] private InfectiousStatsItem _infectiousStats;
+    [ObservableProperty] private TopEmployeeItem _topEmployee;
+    
     [ObservableProperty] private int _currentPageSize;
     [ObservableProperty] private List<int> pageSizes;
     [ObservableProperty] private string _pageInfo;
     
-    [ObservableProperty] private IllnessRecordViem _selectedIllnessRecord;
+    [ObservableProperty] private IllnessRecordView _selectedIllnessRecord;
 
     private int _currentPage = 1;
     private int _totalPages;
@@ -34,12 +42,43 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         PageSizes = new List<int>([5, 10, 20]);
         CurrentPageSize = PageSizes.First();
+        GetStatistic();
+        LoadAnalytics();
         CalculatePages();
     }
 
     partial void OnCurrentPageSizeChanged(int value)
     {
         CalculatePages();
+    }
+
+    void GetStatistic()
+    {
+        using var db = new SickDepartmentsReposiroty();
+        DepartmentsSickView = db.Get();
+    }
+
+    void LoadAnalytics()
+    {
+        using var db = new AnalyticsRepository();
+        
+        TopIllnesses.Clear();
+        var topIllnesses = db.GetTopIllnesses(3);
+        foreach (var item in topIllnesses)
+            TopIllnesses.Add(item);
+        
+        IllnessDurations.Clear();
+        var durations = db.GetAverageDurations(new List<string>() { "Грипп", "Простуда" });
+        foreach (var item in durations)
+            IllnessDurations.Add(item);
+        
+        TopDepartments.Clear();
+        var topDepts = db.GetTopSickDepartments(1);
+        foreach (var item in topDepts)
+            TopDepartments.Add(item);
+        
+        InfectiousStats = db.GetInfectiousStats();
+        TopEmployee = db.GetMostResilientEmployee();
     }
 
     void CalculatePages()
@@ -133,7 +172,7 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         if (SelectedIllnessRecord == null)
             return;
-        var record = new IllnessRecordViem
+        var record = new IllnessRecordView
         {
             Id = SelectedIllnessRecord.Id,
             EmployeeName = SelectedIllnessRecord.EmployeeName,

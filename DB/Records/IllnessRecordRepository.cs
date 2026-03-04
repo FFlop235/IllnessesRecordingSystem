@@ -6,14 +6,14 @@ using MySqlConnector;
 
 namespace IllnessesRecordingSystem.DB;
 
-public class IllnessRecordRepository: BaseRepository<IllnessRecordViem>, IPaginatedRepository<IllnessRecordViem>, IDisposable
+public class IllnessRecordRepository: BaseRepository<IllnessRecordView>, IPaginatedRepository<IllnessRecordView>, IDisposable
 {
     public IllnessRecordRepository()
     {
         OpenConnection();
     }
 
-    public override IllnessRecordViem GetById(int id)
+    public override IllnessRecordView GetById(int id)
     {
         var cmd = new MySqlCommand(@"
             SELECT
@@ -36,7 +36,7 @@ public class IllnessRecordRepository: BaseRepository<IllnessRecordViem>, IPagina
         using var reader = cmd.ExecuteReader();
         if (reader.Read())
         {
-            return new IllnessRecordViem
+            return new IllnessRecordView
             {
                 Id = reader.GetInt32("Id"),
                 EmployeeName = reader.GetString("EmployeeName"),
@@ -54,9 +54,9 @@ public class IllnessRecordRepository: BaseRepository<IllnessRecordViem>, IPagina
         return null;
     }
 
-    public override IEnumerable<IllnessRecordViem> GetAll()
+    public override IEnumerable<IllnessRecordView> GetAll()
     {
-        var result = new List<IllnessRecordViem>();
+        var result = new List<IllnessRecordView>();
 
         var cmd = new MySqlCommand(@"
             SELECT
@@ -77,7 +77,7 @@ public class IllnessRecordRepository: BaseRepository<IllnessRecordViem>, IPagina
         using var reader = cmd.ExecuteReader();
         while (reader.Read())
         {
-            result.Add(new IllnessRecordViem
+            result.Add(new IllnessRecordView
             {
                 Id = reader.GetInt32("Id"),
                 EmployeeName = reader.GetString("EmployeeName"),
@@ -95,7 +95,7 @@ public class IllnessRecordRepository: BaseRepository<IllnessRecordViem>, IPagina
         return result;
     }
 
-    public override void Add(IllnessRecordViem entity)
+    public override void Add(IllnessRecordView entity)
     {
         var cmd = new MySqlCommand(@"
             INSERT INTO IllnessRecords (EmployeeId, IllnessTypeId, StartDate, EndDate, DiagnosisNote)
@@ -110,7 +110,7 @@ public class IllnessRecordRepository: BaseRepository<IllnessRecordViem>, IPagina
         cmd.ExecuteNonQuery();
     }
 
-    public override void Update(IllnessRecordViem entity)
+    public override void Update(IllnessRecordView entity)
     {
         var cmd = new MySqlCommand(@"
             UPDATE  IllnessRecords
@@ -131,16 +131,16 @@ public class IllnessRecordRepository: BaseRepository<IllnessRecordViem>, IPagina
         cmd.ExecuteNonQuery();
     }
 
-    public override void Delete(IllnessRecordViem entity)
+    public override void Delete(IllnessRecordView entity)
     {
         var cmd = new MySqlCommand("DELETE FROM IllnessRecords WHERE Id = @id", connection);
         cmd.Parameters.AddWithValue("@id", entity.Id);
         cmd.ExecuteNonQuery();
     }
 
-    public List<IllnessRecordViem> GetPage(int pageIndex, int pageSize)
+    public List<IllnessRecordView> GetPage(int pageIndex, int pageSize)
     {
-        var result = new List<IllnessRecordViem>();
+        var result = new List<IllnessRecordView>();
         
             var cmd = new MySqlCommand(@"
             SELECT 
@@ -166,7 +166,7 @@ public class IllnessRecordRepository: BaseRepository<IllnessRecordViem>, IPagina
             {
                 while (reader.Read())
                 {
-                    result.Add(new IllnessRecordViem
+                    result.Add(new IllnessRecordView
                     {
                         Id = reader.GetInt32("Id"),
                         EmployeeName = reader.GetString("EmployeeName"),

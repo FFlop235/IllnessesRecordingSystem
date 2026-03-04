@@ -14,7 +14,9 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <Grid RowDefinitions="* Auto Auto">
+    <TabControl>
+        <TabItem Header="Записи">
+            <Grid RowDefinitions="* Auto Auto">
         <DataGrid 
             ItemsSource="{Binding IllnessRecords}"
             GridLinesVisibility="All"
@@ -55,5 +57,86 @@
                           SelectedItem="{Binding CurrentPageSize}"/>
         </StackPanel>
     </Grid>
+        </TabItem>
+        <TabItem Header="Статистика">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Margin="10" Spacing="10">
+                    
+                    <Border BorderBrush="Gray" BorderThickness="1" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Текущее подразделение" FontWeight="Bold" Margin="0,0,0,10"/>
+                            
+                            <Grid ColumnDefinitions="120,*" RowDefinitions="Auto,Auto,Auto,Auto">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Подразделение:"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DepartmentsSickView.DepartmentName}"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Дни болезни:"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DepartmentsSickView.TotalSickDays}"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Случаи:"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding DepartmentsSickView.IllnessCount}"/>
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Средняя длит.:"/>
+                                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding DepartmentsSickView.AvgDuration, StringFormat='{}{0:F1} дн.'}"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border BorderBrush="Gray" BorderThickness="1" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Топ-3 заболеваний" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <ItemsControl ItemsSource="{Binding TopIllnesses}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DisplayText}" Margin="0,2"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border BorderBrush="Gray" BorderThickness="1" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Длительность заболеваний" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <ItemsControl ItemsSource="{Binding IllnessDurations}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DisplayText}" Margin="0,2"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border BorderBrush="Gray" BorderThickness="1" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Самое болеющее подразделение" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <ItemsControl ItemsSource="{Binding TopDepartments}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DisplayText}" Margin="0,2"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border BorderBrush="Gray" BorderThickness="1" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Инфекционные заболевания" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding InfectiousStats.DisplayText}"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border BorderBrush="Gray" BorderThickness="1" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Самый стойкий сотрудник" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding TopEmployee.DisplayText}"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+    </TabControl>
     
 </Window>

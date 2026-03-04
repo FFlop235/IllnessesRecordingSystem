@@ -8,7 +8,7 @@ namespace IllnessesRecordingSystem.Views;
 
 public partial class EditRecordWindow : Window
 {
-    public EditRecordWindow(IllnessRecordViem Record)
+    public EditRecordWindow(IllnessRecordView Record)
     {
         InitializeComponent();
         DataContext = new EditRecordViewModel(Record, Close);

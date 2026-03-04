@@ -103,7 +103,7 @@ public partial class AddWindowViewModel: ObservableObject
             return;
         }
 
-        var AddRecord = new IllnessRecordViem
+        var AddRecord = new IllnessRecordView
         {
             Id = _illnessRecordRepository.GetRowsCount() + 1,
             EmployeeName = SelectedEmployee.FullName,
